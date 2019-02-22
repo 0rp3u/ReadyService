@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:background="#60008577"
+			tools:context=".ui.servicepicker.ServicePickerActivity">
+
+		<androidx.recyclerview.widget.RecyclerView
+				android:id="@+id/my_recycler_view"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:scrollbars="vertical"
+				app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				tools:listitem="@layout/list_item_card" />
+
+
+		<include
+				android:id="@+id/loading"
+				layout="@layout/loading"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"/>
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
