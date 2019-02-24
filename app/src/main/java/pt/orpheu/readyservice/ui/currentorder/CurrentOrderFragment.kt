@@ -2,7 +2,9 @@ package pt.orpheu.readyservice.ui.currentorder
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Looper
 import android.view.LayoutInflater
+import androidx.annotation.MainThread
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +17,7 @@ import pt.orpheu.readyservice.databinding.FragmentCurrentOrderDrawerBinding
 import pt.orpheu.readyservice.ui.adapters.OrderItemsRecyclerViewAdapter
 import cn.pedant.SweetAlert.SweetAlertDialog
 import pt.orpheu.readyservice.databinding.ListOrderItemBinding
+import pt.orpheu.readyservice.ui.itemoptionsdialog.ItemOptionsDialog
 
 
 class CurrentOrderFragment : BaseFragment<FragmentCurrentOrderDrawerBinding, CurrentOrderViewModel>() {
@@ -44,22 +47,10 @@ class CurrentOrderFragment : BaseFragment<FragmentCurrentOrderDrawerBinding, Cur
 
     private fun setupRecyclerView() {
         val recyclerView = dataBinding.recyclerView
-        val inflator = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val currentOrderRecyclerViewAdapter = OrderItemsRecyclerViewAdapter(requireContext()) {
-           val view = DataBindingUtil.inflate<ListOrderItemBinding>(
-                inflator,
-                R.layout.list_order_item,
-                null,
-                false
-            )
-            view.title.text = it.item.name
+            val dialog = ItemOptionsDialog.newInstance(it.item)
 
-            SweetAlertDialog(requireContext(), SweetAlertDialog.NORMAL_TYPE)
-                .setTitleText(it.item.name)
-                .setContentText(it.item.description)
-                .setCustomView(view.root)
-                .setConfirmClickListener(null)
-                .show()
+            dialog.show(fragmentManager, ItemOptionsDialog.DIALOG_TAG)
         }
 
         recyclerView.adapter = currentOrderRecyclerViewAdapter

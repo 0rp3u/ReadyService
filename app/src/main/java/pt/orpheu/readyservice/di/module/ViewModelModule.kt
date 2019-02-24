@@ -9,6 +9,7 @@ import pt.orpheu.readyservice.di.ViewModelKey
 import pt.orpheu.readyservice.di.factory.ViewModelFactory
 import pt.orpheu.readyservice.ui.currentorder.CurrentOrderViewModel
 import pt.orpheu.readyservice.ui.itemdetails.ItemDetailsViewModel
+import pt.orpheu.readyservice.ui.itemoptionsdialog.ItemOptionsViewModel
 import pt.orpheu.readyservice.ui.menupage.MenuViewModel
 import pt.orpheu.readyservice.ui.menupicker.MenuPickerViewModel
 import pt.orpheu.readyservice.ui.servicepicker.ServicePickerViewModel
@@ -44,6 +45,11 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(CurrentOrderViewModel::class)
-    abstract fun bindCurrentOrderViewModell(currentOrderViewModel: CurrentOrderViewModel) : ViewModel
+    abstract fun bindCurrentOrderViewModel(currentOrderViewModel: CurrentOrderViewModel) : ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ItemOptionsViewModel::class)
+    abstract fun bindItemOptionsViewModel(itemOptionsViewModel: ItemOptionsViewModel) : ViewModel
 
 }

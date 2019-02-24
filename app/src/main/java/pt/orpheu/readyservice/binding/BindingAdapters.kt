@@ -17,11 +17,12 @@ object BindingAdapters {
     }
 
     @JvmStatic
-    @BindingAdapter(value = ["bind:placeholder", "bind:image"])
-    fun image(imageView: ImageView, placeholder: Drawable?, image: String?) {
+    @BindingAdapter(value = ["placeholder", "image", "circle"], requireAll = false)
+    fun image(imageView: ImageView, placeholder: Drawable?, image: String?, circle: Boolean?) {
         Glide.with(imageView.context)
                 .load(image?:return)
-                .apply(RequestOptions().placeholder(placeholder).dontAnimate())
+                .apply(if(circle == true) RequestOptions.circleCropTransform() else RequestOptions()
+                    .placeholder(placeholder))
                 .into(imageView)
     }
 }

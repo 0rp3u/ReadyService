@@ -21,7 +21,9 @@ import pt.orpheu.readyservice.databinding.ListItemCardBinding
 import pt.orpheu.readyservice.model.*
 import javax.inject.Inject
 import android.content.Intent
+import pt.orpheu.readyservice.ui.adapters.OrderItemsRecyclerViewAdapter
 import pt.orpheu.readyservice.ui.itemdetails.ItemDetailsActivity
+import pt.orpheu.readyservice.ui.itemoptionsdialog.ItemOptionsDialog
 
 
 class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(){
@@ -73,7 +75,8 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(){
                         startActivity(intent)
                     },
                     {
-                        viewModel.orderProduct(it)
+                        val dialog = ItemOptionsDialog.newInstance(it)
+                        dialog.show(fragmentManager, ItemOptionsDialog.DIALOG_TAG)
                     }
                 )
         })

@@ -24,6 +24,9 @@ interface OrderedItemsDao {
     @Query("DELETE FROM ordered_items WHERE id = :id")
     suspend fun delete(id: Long)
 
+    @Query("SELECT ordered_items.* FROM ordered_items, orders WHERE orders.current = 1 and ordered_items.order_id = orders.id and item_id = :itemId")
+    suspend fun getOrderItem(itemId: Long): OrderedItemEntity?
+
     @Query("SELECT ordered_items.* FROM ordered_items, orders WHERE orders.current = 1 and ordered_items.order_id = orders.id")
     suspend fun gerCurrentOrderItems(): List<OrderedItemEntity>?
 
