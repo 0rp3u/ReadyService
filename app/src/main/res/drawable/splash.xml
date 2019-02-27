@@ -2,11 +2,11 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
             android:opacity="opaque">
 	<item android:drawable="@color/colorPrimaryDark"/>
-	<item
-				android:gravity="center"
-				android:drawable="@drawable/ic_main_food"
-				android:height="150dp"
-				android:width="150dp"
-	/>
 
+	<item
+			android:gravity="center"
+			android:drawable="@drawable/ic_main_food"
+			android:height="150dp"
+			android:width="150dp"
+	/>
 </layer-list>

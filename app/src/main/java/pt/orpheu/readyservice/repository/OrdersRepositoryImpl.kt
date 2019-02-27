@@ -1,6 +1,7 @@
 package pt.orpheu.readyservice.repository
 
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Observer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -24,16 +25,19 @@ class OrdersRepositoryImpl
     private val orderDao: OrderDao
 ): OrdersRepository {
 
-    private val ld : MediatorLiveData<Order> = MediatorLiveData()
+    private val currentOrderMld : MediatorLiveData<Order> = MediatorLiveData()
 
-    init {
-        val orderedItems =  database.getOrderedItemsDao().gerCurrentOrderItemsLiveData()
-        ld.addSource(orderedItems) {
+    private val allOrdereItemsdMld : MediatorLiveData<List<ItemOrder>?> = MediatorLiveData()
+
+    init { //TODO refactor
+
+        val orderingItems =  database.getOrderedItemsDao().gerCurrentOrderItemsLiveData()
+        currentOrderMld.addSource(orderingItems) {
             // coroutine context needed for the non blocking api call,
             // liveData access has to be on the main thread
             GlobalScope.launch(Dispatchers.Main) {
-                ld.postValue(
-                    if(it.isNotEmpty()) {
+                currentOrderMld.postValue(
+                    if(!it.isNullOrEmpty()) {
                         Order(
                             it.first().orderId,
                             true,
@@ -43,10 +47,31 @@ class OrdersRepositoryImpl
                 )
             }
         }
+
+        val alreadyOrderedItems =  database.getOrderedItemsDao().getAlreadyOrderedItemsLiveData()
+        allOrdereItemsdMld.addSource(alreadyOrderedItems) {
+            // coroutine context needed for the non blocking api call,
+            // liveData access has to be on the main thread
+            GlobalScope.launch(Dispatchers.Main) {
+                allOrdereItemsdMld.postValue(
+                    if(!it.isNullOrEmpty()) {
+                        it.fold(mutableListOf<ItemOrder>()) { acc, dbItem ->
+                            (acc.find { it.item.id == dbItem.itemId }
+                                ?: ItemOrder(0, apiService.getItemDetails(dbItem.itemId) ))
+                                    .apply { count += dbItem.itemCount }
+                                    .let { acc.remove(it); acc.add(it)}
+                            acc
+                        }
+                    } else null
+                )
+            }
+        }
     }
 
 
-    override fun getCurrentOrderLiveData() = ld
+    override fun getCurrentOrderLiveData() = currentOrderMld
+
+    override fun getAlreadyOrderedLiveData() = allOrdereItemsdMld
 
     override suspend fun getOrderItem(item: Item) : ItemOrder? = withContext(Dispatchers.IO){
         return@withContext orderedItemsDao.getOrderItem(item.id)
@@ -98,15 +123,46 @@ class OrdersRepositoryImpl
         }finally { database.endTransaction() }
     }
 
-    override suspend fun emptyCurrentOrder() = withContext(Dispatchers.IO) {
+
+
+    override suspend fun closeCurrentOrder() = withContext(Dispatchers.IO) {
         try {
             database.beginTransaction()
 
-            orderDao.getCurrentOrder()?.let { orderDao.delete(it.id) }
+            orderDao.getCurrentOrder()?.let {
+                orderDao.update(it.apply { it.current = false })
+            }
 
             database.setTransactionSuccessful()
 
         }finally { database.endTransaction() }
     }
+
+    override suspend fun emptyCurrentOrder() = withContext(Dispatchers.IO) {
+        try {
+            database.beginTransaction()
+
+            orderDao.getCurrentOrder()?.let {
+                orderDao.delete(it.id)
+            }
+
+            database.setTransactionSuccessful()
+
+        }finally { database.endTransaction() }
+    }
+
+    override suspend fun emptyAllOrders() = withContext(Dispatchers.IO) {
+        try {
+            database.beginTransaction()
+
+            database.clearAllTables() //we only save order Info so it's fine.
+
+            database.setTransactionSuccessful()
+
+        }finally { database.endTransaction() }
+    }
+
+
+
 
 }

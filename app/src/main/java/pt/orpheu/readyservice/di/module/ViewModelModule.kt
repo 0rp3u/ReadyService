@@ -7,9 +7,10 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import pt.orpheu.readyservice.di.ViewModelKey
 import pt.orpheu.readyservice.di.factory.ViewModelFactory
+import pt.orpheu.readyservice.ui.alreadyordered.AlreadyOrderedViewModel
 import pt.orpheu.readyservice.ui.currentorder.CurrentOrderViewModel
 import pt.orpheu.readyservice.ui.itemdetails.ItemDetailsViewModel
-import pt.orpheu.readyservice.ui.itemoptionsdialog.ItemOptionsViewModel
+import pt.orpheu.readyservice.ui.itemoptions.ItemOptionsViewModel
 import pt.orpheu.readyservice.ui.menupage.MenuViewModel
 import pt.orpheu.readyservice.ui.menupicker.MenuPickerViewModel
 import pt.orpheu.readyservice.ui.servicepicker.ServicePickerViewModel
@@ -46,6 +47,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CurrentOrderViewModel::class)
     abstract fun bindCurrentOrderViewModel(currentOrderViewModel: CurrentOrderViewModel) : ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AlreadyOrderedViewModel::class)
+    abstract fun bindAlreadyOrderedViewModel(alreadyOrderedViewModel: AlreadyOrderedViewModel) : ViewModel
 
     @Binds
     @IntoMap

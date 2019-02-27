@@ -30,7 +30,7 @@ abstract class BaseActivity<T : ViewDataBinding, VM : ViewModel> : DaggerAppComp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //dataBinding.lifecycleOwner = this
+        dataBinding.lifecycleOwner = this
 
         if (savedInstanceState == null) {
             defineInitialFragment()

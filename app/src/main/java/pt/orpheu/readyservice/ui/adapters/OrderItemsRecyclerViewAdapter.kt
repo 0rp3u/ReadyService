@@ -12,6 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import pt.orpheu.readyservice.R
 import pt.orpheu.readyservice.databinding.ListOrderItemBinding
 import pt.orpheu.readyservice.model.ItemOrder
+import kotlin.coroutines.coroutineContext
 
 class OrderItemsRecyclerViewAdapter(
     context: Context,
@@ -26,7 +27,7 @@ class OrderItemsRecyclerViewAdapter(
 
     fun addItems(items: List<ItemOrder>){
         data.addAll(items)
-        notifyDataSetChanged()
+        notifyItemRangeInserted(data.size - items.size, items.size)
     }
 
     fun clear(){
@@ -35,9 +36,8 @@ class OrderItemsRecyclerViewAdapter(
     }
 
     fun setData(items: List<ItemOrder>){
-        Log.d("dataset", Thread.currentThread().name)
-        clear()
-        addItems(items)
+        data = items.toMutableList()
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): OrderItemViewHolder {
@@ -70,7 +70,7 @@ class OrderItemViewHolder constructor(val itemBinding: ListOrderItemBinding) : R
 
         itemBinding.title.text = itemOrder.item.name
         itemBinding.count.text = "x${itemOrder.count}"
-        itemBinding.price.text = "${itemOrder.item.price} $"
+        itemBinding.price.text = itemView.context.getString(R.string.money_text, itemOrder.item.price)
 
         itemBinding.root.setOnClickListener {
             listener(itemOrder)

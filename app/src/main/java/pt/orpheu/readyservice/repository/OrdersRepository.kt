@@ -9,6 +9,8 @@ interface OrdersRepository {
 
     fun getCurrentOrderLiveData(): LiveData<Order?>
 
+    fun getAlreadyOrderedLiveData(): LiveData<List<ItemOrder>?>
+
     suspend fun getOrderItem(item: Item): ItemOrder?
 
     suspend fun deleteItem(itemId: Long)
@@ -17,6 +19,9 @@ interface OrdersRepository {
 
     suspend fun orderItem(itemOrder: ItemOrder)
 
+    suspend fun closeCurrentOrder()
+
     suspend fun emptyCurrentOrder()
 
+    suspend fun emptyAllOrders()
 }

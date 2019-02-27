@@ -20,9 +20,12 @@ object BindingAdapters {
     @BindingAdapter(value = ["placeholder", "image", "circle"], requireAll = false)
     fun image(imageView: ImageView, placeholder: Drawable?, image: String?, circle: Boolean?) {
         Glide.with(imageView.context)
-                .load(image?:return)
-                .apply(if(circle == true) RequestOptions.circleCropTransform() else RequestOptions()
-                    .placeholder(placeholder))
-                .into(imageView)
+            .load(image?: return)
+            .apply(if(circle == true) RequestOptions.circleCropTransform() else RequestOptions()
+                .placeholder(placeholder)
+                .error(placeholder)
+                .centerInside()
+            )
+            .into(imageView)
     }
 }

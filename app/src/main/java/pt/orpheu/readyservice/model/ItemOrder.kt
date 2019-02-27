@@ -5,6 +5,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class ItemOrder(
-    val count: Int,
+    var count: Int,
     val item: Item
 ) : Parcelable

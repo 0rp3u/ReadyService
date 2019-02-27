@@ -21,9 +21,8 @@ import pt.orpheu.readyservice.databinding.ListItemCardBinding
 import pt.orpheu.readyservice.model.*
 import javax.inject.Inject
 import android.content.Intent
-import pt.orpheu.readyservice.ui.adapters.OrderItemsRecyclerViewAdapter
 import pt.orpheu.readyservice.ui.itemdetails.ItemDetailsActivity
-import pt.orpheu.readyservice.ui.itemoptionsdialog.ItemOptionsDialog
+import pt.orpheu.readyservice.ui.itemoptions.ItemOptionsDialog
 
 
 class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(){
@@ -125,7 +124,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(){
 
             dataBinding.title.text = items[i].name
             dataBinding.description.text = items[i].description
-            dataBinding.price.text = "${items[i].price} $"
+            dataBinding.price.text =  context.getString(R.string.money_text, items[i].price)
 
             dataBinding.root.setOnClickListener {
                 clickCallback(items[i])

@@ -1,6 +1,7 @@
-package pt.orpheu.readyservice.ui.itemoptionsdialog
+package pt.orpheu.readyservice.ui.itemoptions
 
 import android.os.Bundle
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -16,7 +17,7 @@ class ItemOptionsDialog : BaseDialog<DialogItemOptionsBinding, ItemOptionsViewMo
     companion object {
         const val DIALOG_TAG = "ITEM_OPTIONS_DIALOG"
         const val ITEM = "ITEM"
-        
+
         fun newInstance(item: Item): ItemOptionsDialog {
             val dialog = ItemOptionsDialog()
             val arguments = Bundle()
@@ -41,34 +42,40 @@ class ItemOptionsDialog : BaseDialog<DialogItemOptionsBinding, ItemOptionsViewMo
         .of(this, viewModelFactory)
         .get(ItemOptionsViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.animatedDialogTheme)
+    }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         dataBinding.itemOptionsViewModel = viewModel
         dataBinding.item = item
 
-        viewModel.getCurrentCount().observe(this, Observer {
-            dataBinding.count.setText("$it")
-        })
+        dataBinding.close.setOnClickListener{ dismiss() }
+
 
         dataBinding.addToOrderBtn.setOnClickListener {
             viewModel.orderItem()
             dismiss()
         }
 
-        viewModel.getCurrentCount().observe(this, Observer {
-            dataBinding.addToOrderBtn.text = when {
-                viewModel.isNewOrderItem && it == 0-> "Cancel"
-                viewModel.isNewOrderItem && it > 0 -> "Add to order"
-                viewModel.isNewOrderItem.not() && it == 0-> "Remove from order"
-                viewModel.isNewOrderItem.not() && it > 0 -> "Update order"
+        viewModel.getEditOtionStateLiveData().observe(this, Observer { state->
+            dataBinding.addToOrderBtn.text = when(state) {
+                EditOptionState.NO_CHANGE  -> "Close"
+                EditOptionState.ADDING_NEW -> "Add to order"
+                EditOptionState.REMOVING   -> "Remove from order"
+                EditOptionState.UPDATING   -> "Update order"
                 else -> dataBinding.addToOrderBtn.text
             }
-
-            dataBinding.total.text = "${it.times(item.price)} $"
+            viewModel.getCurrentCount().let {
+                dataBinding.total.text = getString(R.string.money_text, it.times(item.price))
+                val text = "$it"
+                dataBinding.count.setText(text)
+                dataBinding.count.setSelection(text.length)
+            }
         })
-
-
 
 
         viewModel.init(item)

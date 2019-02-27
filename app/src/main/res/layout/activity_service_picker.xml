@@ -19,6 +19,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintBottom_toTopOf="@+id/guideline"/>
+
         <ImageView
             android:id="@+id/restaurant_img"
             android:layout_width="0dp"

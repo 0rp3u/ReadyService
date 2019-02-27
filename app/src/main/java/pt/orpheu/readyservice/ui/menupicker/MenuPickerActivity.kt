@@ -70,6 +70,7 @@ class MenuPickerActivity : BaseActivity<ActivityMenuPickerBinding, MenuPickerVie
         imageViewPager.offscreenPageLimit = 4
         menuPager.offscreenPageLimit = 4
 
+
         menuPager.adapter = TabsAdapter(supportFragmentManager)
         imageViewPager.adapter = ImagePagerAdapter(this)
         tabLayout.setupWithViewPager(menuPager)

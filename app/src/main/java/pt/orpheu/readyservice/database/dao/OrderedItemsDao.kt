@@ -36,4 +36,7 @@ interface OrderedItemsDao {
     @Query("SELECT ordered_items.* FROM ordered_items, orders WHERE orders.current = 0 and ordered_items.order_id = orders.id")
     suspend fun gerAlreadyOrderedItems(): List<OrderedItemEntity>?
 
+    @Query("SELECT ordered_items.* FROM ordered_items, orders WHERE orders.current = 0 and ordered_items.order_id = orders.id")
+    fun getAlreadyOrderedItemsLiveData(): LiveData<List<OrderedItemEntity>?>
+
 }

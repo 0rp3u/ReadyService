@@ -1,4 +1,4 @@
-package pt.orpheu.readyservice.ui.currentorder
+package pt.orpheu.readyservice.ui.alreadyordered
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -6,30 +6,28 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import pt.orpheu.readyservice.api.ApiService
 import pt.orpheu.readyservice.model.*
 import pt.orpheu.readyservice.repository.OrdersRepository
 import javax.inject.Inject
 
-class CurrentOrderViewModel @Inject constructor(private val ordersRepository: OrdersRepository) : ViewModel(){
+class AlreadyOrderedViewModel @Inject constructor(private val ordersRepository: OrdersRepository) : ViewModel(){
 
     private val state: MutableLiveData<LoadingState> = MutableLiveData()
 
-    private var currentOrder = ordersRepository.getCurrentOrderLiveData()
+    private var alreadyOrdered = ordersRepository.getAlreadyOrderedLiveData()
 
     val listEmpty = MediatorLiveData<Boolean>()
 
     fun getLoadingStateLiveData(): LiveData<LoadingState> = state
 
-    fun getCurrentOrderLiveData() = currentOrder
+    fun getAlreadyOrderedLiveData() = alreadyOrdered
 
     fun getCurrentOrderIsEmptyLiveData(): LiveData<Boolean> = listEmpty
 
     init{
-        listEmpty.addSource(getCurrentOrderLiveData()) {
-            listEmpty.postValue(it?.items.isNullOrEmpty())
+        listEmpty.addSource(getAlreadyOrderedLiveData()) {
+            listEmpty.postValue(it.isNullOrEmpty())
         }
     }
 
@@ -45,11 +43,11 @@ class CurrentOrderViewModel @Inject constructor(private val ordersRepository: Or
         }
     }
 
-    fun closeCurrentOrder(){
+    fun  ordersPaid(){
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 state.value = LOADING
-                ordersRepository.closeCurrentOrder()
+                ordersRepository.emptyAllOrders()
                 state.value = LOADED
             }catch (e:Exception){
                 state.value = ERROR(e.message ?: "error: something went wrong")
@@ -57,16 +55,4 @@ class CurrentOrderViewModel @Inject constructor(private val ordersRepository: Or
         }
     }
 
-
-    fun emptyCurrentOrder(){
-        GlobalScope.launch(Dispatchers.Main) {
-            try {
-                state.value = LOADING
-                ordersRepository.emptyCurrentOrder()
-                state.value = LOADED
-            }catch (e:Exception){
-                state.value = ERROR(e.message ?: "error: something went wrong")
-            }
-        }
-    }
 }

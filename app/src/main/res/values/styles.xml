@@ -11,6 +11,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:dialogTheme">@style/animatedDialogTheme</item>
     </style>
 
 
@@ -33,5 +34,15 @@
         <item name="android:fontFamily">@font/quotable_font_family</item>
     </style>
 
+
+    <style name="animatedDialogTheme" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/modal_in</item>
+        <item name="android:windowExitAnimation">@anim/modal_out</item>
+	    <item name="android:animationDuration">400</item>
+    </style>
 
 </resources>

@@ -1,15 +1,16 @@
 package pt.orpheu.readyservice.ui.itemdetails
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import pt.orpheu.readyservice.R
 import pt.orpheu.readyservice.base.BaseActivity
 import pt.orpheu.readyservice.databinding.ActivityItemDetailsBinding
 import pt.orpheu.readyservice.model.Item
 import pt.orpheu.readyservice.ui.adapters.ImagePagerAdapter
-import pt.orpheu.readyservice.ui.menupage.MenuFragment
+import pt.orpheu.readyservice.ui.itemoptions.ItemOptionsBottomSheetFragment
 import javax.inject.Inject
 
 class ItemDetailsActivity : BaseActivity<ActivityItemDetailsBinding, ItemDetailsViewModel>() {
@@ -35,6 +36,28 @@ class ItemDetailsActivity : BaseActivity<ActivityItemDetailsBinding, ItemDetails
         val item = intent!!.extras!!.getParcelable<Item>(EXTRA_ITEM)
 
         dataBinding.imageViewpager.adapter = ImagePagerAdapter(this,  item.img_urls)
+        dataBinding.description.text = item.description
+        if (savedInstanceState == null) {
+            setupBottomFragment(item)
+
+        }
+
+        BottomSheetBehavior.from(dataBinding.bottomSheetContainer).setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
+            override fun onSlide(p0: View, p1: Float) {}
+
+            override fun onStateChanged(p0: View, p1: Int) {
+
+            }
+
+        })
+    }
+
+    private fun setupBottomFragment(item: Item){
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.bottom_sheet_container, ItemOptionsBottomSheetFragment.newInstance(item))
+            .commitNow()
 
     }
+
 }

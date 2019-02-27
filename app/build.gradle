@@ -85,7 +85,7 @@ dependencies {
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
 
 
-    implementation "android.arch.work:work-runtime-ktx:1.0.0-rc01"
+    implementation "android.arch.work:work-runtime-ktx:1.0.0-rc02"
 
     implementation 'com.google.dagger:dagger:2.21'
     implementation 'com.google.dagger:dagger-android:2.21'
