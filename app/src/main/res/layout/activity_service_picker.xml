@@ -9,16 +9,16 @@
         tools:context=".ui.servicepicker.ServicePickerActivity">
 
         <ImageView
-            android:id="@+id/take_away_img"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/ic_take_away"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"/>
+                android:id="@+id/take_away_img"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/ic_take_away"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintBottom_toTopOf="@+id/guideline"/>
 
         <ImageView
             android:id="@+id/restaurant_img"
@@ -50,40 +50,41 @@
             app:layout_constraintBottom_toBottomOf="@+id/restaurant_img"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/take_away"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:textSize="64sp"
-            android:textColor="@android:color/white"
-            android:text="Take-away "
-            android:textStyle="italic"
-            android:fontFamily="@font/quotable_italic"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+                android:id="@+id/take_away"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:textSize="64sp"
+                android:textColor="@android:color/white"
+                android:text="Take-away "
+                android:textStyle="italic"
+                android:fontFamily="@font/quotable_italic"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/guideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.39"
+                android:gravity="center"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/restaurant"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:textSize="64sp"
-            android:textColor="@android:color/white"
-            android:text="Restaurant "
-            android:textStyle="italic"
-            android:fontFamily="@font/quotable_italic"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toTopOf="@+id/guideline"/>
+                android:id="@+id/restaurant"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:textSize="64sp"
+                android:textColor="@android:color/white"
+                android:text="Restaurant "
+                android:textStyle="italic"
+                android:fontFamily="@font/quotable_italic"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline"
+                android:gravity="center"/>
 
 
 

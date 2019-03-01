@@ -34,6 +34,16 @@
 				app:layout_constraintTop_toTopOf="parent"
 		/>
 
+		<ImageView
+				android:id="@+id/expand_indicator"
+				android:layout_width="wrap_content"
+				android:layout_height="24dp"
+				android:layout_marginStart="8dp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintBottom_toTopOf="@+id/options_container"
+				app:srcCompat="@drawable/ic_expand_more"/>
+
 		<TextView
 				android:id="@+id/price"
 				android:layout_height="wrap_content"
@@ -44,10 +54,11 @@
 				android:fontFamily="@font/quotable"
 				android:textSize="24sp"
 				android:text="@{@string/money_text(item.price)}"
-				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="10 $"
-				app:layout_constraintTop_toTopOf="@+id/line"/>
+				app:layout_constraintTop_toTopOf="@+id/line"
+				android:layout_marginStart="8dp"
+				app:layout_constraintStart_toStartOf="parent"/>
 
 		<androidx.constraintlayout.widget.ConstraintLayout
 				android:id="@+id/options_container"

@@ -8,43 +8,42 @@
 			android:layout_height="match_parent"
 			tools:context="pt.orpheu.readyservice.ui.itemdetails.ItemDetailsActivity">
 
-		<androidx.appcompat.widget.Toolbar
-				android:id="@+id/toolbar"
-				app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-				android:layout_width="match_parent"
-				android:layout_height="?attr/actionBarSize"
-				android:minHeight="?attr/actionBarSize"
-				android:background="@color/semiTransparentcolorPrimary"
-				android:elevation="2dp"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toTopOf="parent">
 
 			<androidx.constraintlayout.widget.ConstraintLayout
+					android:id="@+id/toolbar"
+					app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
 					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					tools:layout_editor_absoluteX="16dp">
+					android:layout_height="?attr/actionBarSize"
+					android:minHeight="?attr/actionBarSize"
+					android:background="@color/semiTransparentcolorPrimary"
+					android:elevation="2dp"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+			>
 
 
 				<ImageView
 						android:id="@+id/back_btn"
 						android:layout_width="wrap_content"
-						android:layout_height="0dp"
+						android:layout_height="wrap_content"
 						android:src="@drawable/ic_arrow_back"
+						android:background="?android:attr/selectableItemBackground"
 						app:layout_constraintStart_toStartOf="parent"
 						app:layout_constraintTop_toTopOf="parent"
 						app:layout_constraintBottom_toBottomOf="parent"
 						app:layout_constraintEnd_toStartOf="@+id/fullscreen_switch_btn"
-						android:layout_marginEnd="8dp"
 						app:layout_constraintHorizontal_bias="0.5"
-						app:layout_constraintHorizontal_chainStyle="spread_inside"/>
+						app:layout_constraintHorizontal_chainStyle="spread_inside"
+						android:layout_marginStart="8dp"/>
 
 				<ImageView
 						android:id="@+id/fullscreen_switch_btn"
 						android:layout_width="wrap_content"
-						android:layout_height="0dp"
+						android:layout_height="wrap_content"
 						android:src="@drawable/ic_fullscreen_white"
 						android:foregroundGravity="right"
+						android:background="?android:attr/selectableItemBackground"
 						app:layout_constraintEnd_toEndOf="parent"
 						app:layout_constraintTop_toTopOf="parent"
 						app:layout_constraintBottom_toBottomOf="parent"
@@ -54,8 +53,6 @@
 
 			</androidx.constraintlayout.widget.ConstraintLayout>
 
-
-		</androidx.appcompat.widget.Toolbar>
 		<androidx.viewpager.widget.ViewPager
 				android:id="@+id/image_viewpager"
 				android:layout_width="match_parent"
@@ -101,6 +98,8 @@
 					app:backgroundTint="?attr/colorPrimary"
 					android:layout_gravity="bottom|end"
 					android:visibility="gone"/>
+
+
 
 			<FrameLayout
 					android:id="@+id/bottom_sheet_container"

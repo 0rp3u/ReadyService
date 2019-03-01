@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import pt.orpheu.readyservice.R
+import pt.orpheu.readyservice.base.BaseRecyclerViewAdapter
 import pt.orpheu.readyservice.databinding.ListOrderItemBinding
 import pt.orpheu.readyservice.model.ItemOrder
 import kotlin.coroutines.coroutineContext
@@ -18,27 +19,9 @@ class OrderItemsRecyclerViewAdapter(
     context: Context,
     itemOrders: List<ItemOrder> = listOf(),
     val clickCallback: (ItemOrder)->Unit
-) : RecyclerView.Adapter<OrderItemViewHolder>() {
+) : BaseRecyclerViewAdapter<ItemOrder, OrderItemViewHolder>(itemOrders) {
 
     private val inflator = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    private var data = itemOrders.toMutableList()
-
-    override fun getItemCount(): Int = data.size
-
-    fun addItems(items: List<ItemOrder>){
-        data.addAll(items)
-        notifyItemRangeInserted(data.size - items.size, items.size)
-    }
-
-    fun clear(){
-        data = mutableListOf()
-        notifyDataSetChanged()
-    }
-
-    fun setData(items: List<ItemOrder>){
-        data = items.toMutableList()
-        notifyDataSetChanged()
-    }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): OrderItemViewHolder {
 
@@ -53,10 +36,10 @@ class OrderItemsRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(orderItemViewHolder: OrderItemViewHolder, i: Int) {
-        orderItemViewHolder.bind(data[i],clickCallback)
+        orderItemViewHolder.bind(getData(i), clickCallback)
     }
 }
-class OrderItemViewHolder constructor(val itemBinding: ListOrderItemBinding) : RecyclerView.ViewHolder(itemBinding.root){
+class OrderItemViewHolder(val itemBinding: ListOrderItemBinding) : RecyclerView.ViewHolder(itemBinding.root){
 
 
     fun bind(itemOrder: ItemOrder, listener: (ItemOrder) -> Unit) {
@@ -77,3 +60,7 @@ class OrderItemViewHolder constructor(val itemBinding: ListOrderItemBinding) : R
         }
     }
 }
+
+
+
+

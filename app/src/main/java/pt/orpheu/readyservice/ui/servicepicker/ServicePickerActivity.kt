@@ -39,11 +39,11 @@ class ServicePickerActivity : BaseActivity<ActivityServicePickerBinding, Service
                 AnimationUtils.loadAnimation(applicationContext, R.anim.slide_from_right)
         )
 
-        dataBinding.takeAwayImg.setOnClickListener {
+        dataBinding.takeAway.setOnClickListener {
             startActivity(Intent(this, MenuPickerActivity::class.java))
         }
 
-        dataBinding.restaurantImg.setOnClickListener {
+        dataBinding.restaurant.setOnClickListener {
             startActivity(Intent(this, MenuPickerActivity::class.java))
         }
     }

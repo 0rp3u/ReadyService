@@ -19,19 +19,16 @@ class ItemDetailsViewModel @Inject constructor(val apiService: ApiService) : Vie
 
     fun getLoadingStateLiveData(): LiveData<LoadingState> = state
 
-    fun getMenusLiveData(): LiveData<Item> = item
 
     fun init(id: Int){
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 state.value = LOADING
 
-                //item.value = apiService.getMenuDetails(id)
                 state.value = LOADED
             }catch (e:Exception){
                 state.value = ERROR(e.message ?: "error: something went wrong")
             }
         }
     }
-
 }

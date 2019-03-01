@@ -106,7 +106,9 @@
 					app:fab_size="mini"
 					app:borderWidth="0.5dp"
 					app:fabSize="mini"
-					app:backgroundTint="?attr/colorPrimary"
+					app:backgroundTint="@color/semiTransparentcolorPrimary"
+					android:elevation="0dp"
+					app:pressedTranslationZ="0dp"
 					android:layout_gravity="bottom|end"/>
 
 			<FrameLayout

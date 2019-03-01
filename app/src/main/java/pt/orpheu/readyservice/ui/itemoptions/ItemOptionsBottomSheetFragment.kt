@@ -1,13 +1,17 @@
 package pt.orpheu.readyservice.ui.itemoptions
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import pt.orpheu.readyservice.R
 import pt.orpheu.readyservice.base.BaseFragment
 import pt.orpheu.readyservice.databinding.BottomSheetItemOptionsBinding
 import pt.orpheu.readyservice.model.Item
+import pt.orpheu.readyservice.ui.itemdetails.ItemDetailsActivity
+import pt.orpheu.readyservice.ui.itemdetails.ItemDetailsViewModel
 import javax.inject.Inject
 
 
@@ -26,7 +30,7 @@ class ItemOptionsBottomSheetFragment : BaseFragment<BottomSheetItemOptionsBindin
     }
 
 
-    val item: Item by lazy { arguments!!.getParcelable<Item>(ITEM)}
+    val item: Item by lazy { arguments!!.getParcelable<Item>(ITEM) }
 
 
     @Inject
@@ -45,19 +49,20 @@ class ItemOptionsBottomSheetFragment : BaseFragment<BottomSheetItemOptionsBindin
         dataBinding.item = item
 
 
-
         dataBinding.addToOrderBtn.setOnClickListener {
-            viewModel.orderItem()
-
+            when(viewModel.getEditOtionStateLiveData().value){
+            EditOptionState.NO_CHANGE -> (requireActivity() as ItemDetailsActivity).closeBottomSheet()
+            else -> viewModel.orderItem()
+            }
         }
 
 
-        viewModel.getEditOtionStateLiveData().observe(this, Observer { state->
-            dataBinding.addToOrderBtn.text = when(state) {
-                EditOptionState.NO_CHANGE  -> "Close"
+        viewModel.getEditOtionStateLiveData().observe(this, Observer { state ->
+            dataBinding.addToOrderBtn.text = when (state) {
+                EditOptionState.NO_CHANGE -> "Close"
                 EditOptionState.ADDING_NEW -> "Add to order"
-                EditOptionState.REMOVING   -> "Remove from order"
-                EditOptionState.UPDATING   -> "Update order"
+                EditOptionState.REMOVING -> "Remove from order"
+                EditOptionState.UPDATING -> "Update order"
                 else -> dataBinding.addToOrderBtn.text
             }
             viewModel.getCurrentCount().let {
@@ -70,5 +75,15 @@ class ItemOptionsBottomSheetFragment : BaseFragment<BottomSheetItemOptionsBindin
 
 
         viewModel.init(item)
+    }
+
+    fun onBottomSheetStateChanged(state: Int){
+
+        when(state) {
+            BottomSheetBehavior.STATE_COLLAPSED ->
+                dataBinding.expandIndicator.animate().rotation(180F)
+            BottomSheetBehavior.STATE_EXPANDED ->
+                dataBinding.expandIndicator.animate().rotation(0f)
+        }
     }
 }

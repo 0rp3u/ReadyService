@@ -33,6 +33,9 @@ class ItemDetailsActivity : BaseActivity<ActivityItemDetailsBinding, ItemDetails
 
     private val bottomSheetBehavior by lazy { BottomSheetBehavior.from(dataBinding.bottomSheetContainer) }
 
+    private var showingDetails = false
+
+
     override fun layoutToInflate() = R.layout.activity_item_details
 
     override fun defineViewModel() = ViewModelProviders
@@ -58,21 +61,16 @@ class ItemDetailsActivity : BaseActivity<ActivityItemDetailsBinding, ItemDetails
 
 
 
-//        bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
-//            override fun onSlide(p0: View, p1: Float) {}
-//
-//            override fun onStateChanged(p0: View, state: Int) {
-//                Log.d("state changed", "$state")
-//                when (state) {
-//                    BottomSheetBehavior.STATE_HIDDEN -> hideDetails()
-//                    else -> {}
-//                }
-//            }
-//        })
+        bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
+            override fun onSlide(p0: View, p1: Float) {}
+            override fun onStateChanged(p0: View, state: Int) { onBottomSheetStateChanged(state) }
+        })
+
     }
 
     private fun showDetails(){
         if(!landscape) return
+        showingDetails = true
         if(bottomSheetBehavior.state != BottomSheetBehavior.STATE_COLLAPSED)
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         dataBinding.toolbar.show(R.anim.slide_in_top)
@@ -82,6 +80,7 @@ class ItemDetailsActivity : BaseActivity<ActivityItemDetailsBinding, ItemDetails
 
     private fun hideDetails(){
         if(!landscape) return
+        showingDetails = false
         if(bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         dataBinding.toolbar.hide(R.anim.slide_out_top)
@@ -91,19 +90,10 @@ class ItemDetailsActivity : BaseActivity<ActivityItemDetailsBinding, ItemDetails
 
     private fun switchToLandscape(){
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        GlobalScope.launch{ //resets Screen orientation so it can respond to orientation sensors again
-            delay(5000)
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-        }
-
     }
 
     private fun switchToPortrait(){
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        GlobalScope.launch{ //resets Screen orientation so it can respond to orientation sensors again
-            delay(5000)
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-        }
     }
 
 
@@ -120,7 +110,6 @@ class ItemDetailsActivity : BaseActivity<ActivityItemDetailsBinding, ItemDetails
 
     private fun setupFAB(){
         dataBinding.floatingActionButton.apply { if(landscape) show() else hide() }
-
         dataBinding.floatingActionButton.setOnClickListener { showDetails() }
     }
 
@@ -131,9 +120,23 @@ class ItemDetailsActivity : BaseActivity<ActivityItemDetailsBinding, ItemDetails
 
 
     private fun setupBottomSheetFragment(item: Item){
+        val fragment = ItemOptionsBottomSheetFragment.newInstance(item)
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.bottom_sheet_container, ItemOptionsBottomSheetFragment.newInstance(item))
+            .replace(R.id.bottom_sheet_container, fragment)
             .commitNow()
+
+    }
+
+    private fun onBottomSheetStateChanged(state: Int){
+        (supportFragmentManager.findFragmentById(R.id.bottom_sheet_container) as ItemOptionsBottomSheetFragment)
+        .onBottomSheetStateChanged(state)
+
+        if(state == BottomSheetBehavior.STATE_HIDDEN && showingDetails) hideDetails()
+
+    }
+
+    fun closeBottomSheet(){
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 }

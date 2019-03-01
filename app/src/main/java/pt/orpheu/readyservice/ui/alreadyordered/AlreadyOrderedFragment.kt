@@ -86,8 +86,6 @@ class AlreadyOrderedFragment : BaseFragment<FragmentAlreadyOrderedDrawerBinding,
                         .changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
                 }
                 .show()
-
         }
-
     }
 }

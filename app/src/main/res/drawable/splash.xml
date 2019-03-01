@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
             android:opacity="opaque">
-	<item android:drawable="@color/colorPrimaryDark"/>
+	<item>
+		<color android:color="#231F20"/>
+	</item>
 
+	<!--for api 21 a bitmap is needed-->
 	<item
 			android:gravity="center"
-			android:drawable="@drawable/ic_main_food"
+			android:drawable="@drawable/ic_main_food_white"
 			android:height="150dp"
 			android:width="150dp"
 	/>
