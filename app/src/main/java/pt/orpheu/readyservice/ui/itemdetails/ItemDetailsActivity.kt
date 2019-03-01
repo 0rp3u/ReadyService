@@ -1,13 +1,20 @@
 package pt.orpheu.readyservice.ui.itemdetails
 
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.*
 import pt.orpheu.readyservice.R
 import pt.orpheu.readyservice.base.BaseActivity
 import pt.orpheu.readyservice.databinding.ActivityItemDetailsBinding
+import pt.orpheu.readyservice.extensions.hide
+import pt.orpheu.readyservice.extensions.show
 import pt.orpheu.readyservice.model.Item
 import pt.orpheu.readyservice.ui.adapters.ImagePagerAdapter
 import pt.orpheu.readyservice.ui.itemoptions.ItemOptionsBottomSheetFragment
@@ -17,11 +24,14 @@ class ItemDetailsActivity : BaseActivity<ActivityItemDetailsBinding, ItemDetails
 
     companion object {
         const val EXTRA_ITEM = "EXTRA_ITEM"
-
     }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val landscape by lazy{ resources.configuration.orientation ==  Configuration.ORIENTATION_LANDSCAPE }
+
+    private val bottomSheetBehavior by lazy { BottomSheetBehavior.from(dataBinding.bottomSheetContainer) }
 
     override fun layoutToInflate() = R.layout.activity_item_details
 
@@ -32,32 +42,98 @@ class ItemDetailsActivity : BaseActivity<ActivityItemDetailsBinding, ItemDetails
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val item: Item = intent?.extras?.getParcelable(EXTRA_ITEM) ?: return
 
-        val item = intent!!.extras!!.getParcelable<Item>(EXTRA_ITEM)
+        setupAppBar()
 
-        dataBinding.imageViewpager.adapter = ImagePagerAdapter(this,  item.img_urls)
+        if (savedInstanceState == null) setupBottomSheetFragment(item)
+
+        setupViewImagePager(item)
+
+        setupFAB()
+
+        hideDetails()
+
         dataBinding.description.text = item.description
-        if (savedInstanceState == null) {
-            setupBottomFragment(item)
 
-        }
 
-        BottomSheetBehavior.from(dataBinding.bottomSheetContainer).setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
-            override fun onSlide(p0: View, p1: Float) {}
 
-            override fun onStateChanged(p0: View, p1: Int) {
-
-            }
-
-        })
+//        bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
+//            override fun onSlide(p0: View, p1: Float) {}
+//
+//            override fun onStateChanged(p0: View, state: Int) {
+//                Log.d("state changed", "$state")
+//                when (state) {
+//                    BottomSheetBehavior.STATE_HIDDEN -> hideDetails()
+//                    else -> {}
+//                }
+//            }
+//        })
     }
 
-    private fun setupBottomFragment(item: Item){
+    private fun showDetails(){
+        if(!landscape) return
+        if(bottomSheetBehavior.state != BottomSheetBehavior.STATE_COLLAPSED)
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        dataBinding.toolbar.show(R.anim.slide_in_top)
+        dataBinding.description.show(R.anim.fade_in)
+        dataBinding.floatingActionButton.hide()
+    }
+
+    private fun hideDetails(){
+        if(!landscape) return
+        if(bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        dataBinding.toolbar.hide(R.anim.slide_out_top)
+        dataBinding.description.hide(R.anim.fade_out)
+        dataBinding.floatingActionButton.show()
+    }
+
+    private fun switchToLandscape(){
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        GlobalScope.launch{ //resets Screen orientation so it can respond to orientation sensors again
+            delay(5000)
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        }
+
+    }
+
+    private fun switchToPortrait(){
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        GlobalScope.launch{ //resets Screen orientation so it can respond to orientation sensors again
+            delay(5000)
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        }
+    }
+
+
+    private fun setupViewImagePager(item: Item){
+        dataBinding.imageViewpager.adapter = ImagePagerAdapter(this,  item.img_urls){
+            Log.d("view pager o click", "${bottomSheetBehavior.state}")
+            when(bottomSheetBehavior.state){
+                BottomSheetBehavior.STATE_HIDDEN -> showDetails()
+                else -> hideDetails()
+            }
+        }
+
+    }
+
+    private fun setupFAB(){
+        dataBinding.floatingActionButton.apply { if(landscape) show() else hide() }
+
+        dataBinding.floatingActionButton.setOnClickListener { showDetails() }
+    }
+
+    private fun setupAppBar(){
+        dataBinding.backBtn.setOnClickListener { onBackPressed() }
+        dataBinding.fullscreenSwitchBtn.setOnClickListener { if(landscape) switchToPortrait() else switchToLandscape() }
+    }
+
+
+    private fun setupBottomSheetFragment(item: Item){
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.bottom_sheet_container, ItemOptionsBottomSheetFragment.newInstance(item))
             .commitNow()
-
     }
-
 }

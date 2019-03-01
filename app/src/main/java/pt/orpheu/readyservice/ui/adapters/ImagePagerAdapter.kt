@@ -10,10 +10,12 @@ import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import pt.orpheu.readyservice.R
+import pt.orpheu.readyservice.model.ItemOrder
 
 class ImagePagerAdapter(
     context: Context,
-    imagesUrls: List<String> = listOf()
+    imagesUrls: List<String> = listOf(),
+    val clickCallback: ()->Unit = {}
 ) : PagerAdapter() {
     var mLayoutInflater: LayoutInflater
             = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -55,6 +57,9 @@ class ImagePagerAdapter(
             .into(imageView)
 
         container.addView(itemView)
+        imageView.setOnClickListener {
+            clickCallback()
+        }
 
         return itemView
     }

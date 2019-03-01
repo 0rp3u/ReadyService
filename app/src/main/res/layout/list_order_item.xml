@@ -45,7 +45,7 @@
 		          android:layout_width="wrap_content"
 		          android:layout_height="wrap_content"
 		          android:layout_marginEnd="4dp"
-		          android:textColor="@color/colorMoneyGreen"
+		          android:textColor="@color/moneyGreen"
 		          android:fontFamily="@font/quotable"
 		          app:layout_constraintBottom_toBottomOf="parent"
 		          app:layout_constraintTop_toTopOf="parent"

@@ -5,7 +5,8 @@
 
 	<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+			android:layout_height="match_parent"
+			tools:context="pt.orpheu.readyservice.ui.itemdetails.ItemDetailsActivity">
 
 		<androidx.appcompat.widget.Toolbar
 				android:id="@+id/toolbar"
@@ -13,11 +14,49 @@
 				android:layout_width="match_parent"
 				android:layout_height="?attr/actionBarSize"
 				android:minHeight="?attr/actionBarSize"
-				android:background="#0F008577"
+				android:background="@color/semiTransparentcolorPrimary"
+				android:elevation="2dp"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent">
+
+			<androidx.constraintlayout.widget.ConstraintLayout
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					tools:layout_editor_absoluteX="16dp">
+
+
+				<ImageView
+						android:id="@+id/back_btn"
+						android:layout_width="wrap_content"
+						android:layout_height="0dp"
+						android:src="@drawable/ic_arrow_back"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toTopOf="parent"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintEnd_toStartOf="@+id/fullscreen_switch_btn"
+						android:layout_marginEnd="8dp"
+						app:layout_constraintHorizontal_bias="0.5"
+						app:layout_constraintHorizontal_chainStyle="spread_inside"/>
+
+				<ImageView
+						android:id="@+id/fullscreen_switch_btn"
+						android:layout_width="wrap_content"
+						android:layout_height="0dp"
+						android:src="@drawable/ic_fullscreen_exit_white"
+						android:foregroundGravity="right"
+						app:layout_constraintEnd_toEndOf="parent"
+						app:layout_constraintTop_toTopOf="parent"
+						app:layout_constraintBottom_toBottomOf="parent"
+						android:layout_marginEnd="8dp"
+						app:layout_constraintStart_toEndOf="@+id/back_btn"
+						app:layout_constraintHorizontal_bias="0.5"/>
+
+			</androidx.constraintlayout.widget.ConstraintLayout>
+
+
 		</androidx.appcompat.widget.Toolbar>
+
 		<androidx.viewpager.widget.ViewPager
 				android:id="@+id/image_viewpager"
 				android:layout_width="match_parent"
@@ -27,51 +66,58 @@
 				app:layout_constraintTop_toTopOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
-		>
+				app:layout_constraintBottom_toBottomOf="parent">
 		</androidx.viewpager.widget.ViewPager>
 
-		<TextView
-				android:id="@+id/price"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_margin="8dp"
-				android:gravity="center"
-				android:textColor="@color/colorMoneyGreen"
-				android:fontFamily="@font/quotable"
-				android:textSize="24sp"
-				tools:text="10 $"
-				android:layout_marginTop="8dp"
-				app:layout_constraintTop_toTopOf="@+id/image_viewpager"
-				android:layout_marginEnd="8dp"
-				app:layout_constraintEnd_toEndOf="@+id/toolbar"
-				android:layout_marginBottom="8dp"
-				app:layout_constraintBottom_toBottomOf="@+id/toolbar"/>
-
 
 		<TextView
+				android:id="@+id/description"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:id="@+id/description"
-				tools:text="@string/medium__ipsum"
+				android:padding="8dp"
+				android:textSize="20sp"
+				android:textColor="@android:color/white"
+				android:background="@color/semiTransparentBlack"
+				android:visibility="gone"
+				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
-				android:layout_marginStart="8dp"
-				android:layout_marginTop="8dp"
-				app:layout_constraintTop_toBottomOf="@+id/image_viewpager"
-				app:layout_constraintEnd_toEndOf="parent"
-				android:layout_marginEnd="8dp"/>
-		<com.google.android.material.floatingactionbutton.FloatingActionButton
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				app:srcCompat="@android:drawable/ic_menu_add"
-				android:id="@+id/floatingActionButton"
-				app:layout_constraintBottom_toBottomOf="@+id/image_viewpager"
+				tools:text="@string/medium__ipsum"
+				app:layout_constraintStart_toEndOf="@+id/image_viewpager"
+				app:layout_constraintTop_toBottomOf="@+id/toolbar"
 				android:layout_marginBottom="8dp"
+				app:layout_constraintBottom_toBottomOf="@+id/coordinatorLayout"
+				app:layout_constraintVertical_bias="0.3"/>
+
+		<androidx.coordinatorlayout.widget.CoordinatorLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
-				android:layout_marginEnd="8dp"
-				app:fab_size="mini"
-				app:borderWidth="0.5dp"
-				android:cropToPadding="false"
-				app:fabSize="mini"
-				app:backgroundTint="?attr/colorPrimary"/>
+				app:layout_constraintStart_toStartOf="parent"
+				android:id="@+id/coordinatorLayout">
+
+			<com.google.android.material.floatingactionbutton.FloatingActionButton
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:src="@drawable/ic_info_outline"
+					android:id="@+id/floatingActionButton"
+					android:layout_marginBottom="8dp"
+					android:layout_marginEnd="8dp"
+					app:fab_size="mini"
+					app:borderWidth="0.5dp"
+					app:fabSize="mini"
+					app:backgroundTint="?attr/colorPrimary"
+					android:layout_gravity="bottom|end"/>
+
+			<FrameLayout
+					android:id="@+id/bottom_sheet_container"
+					android:layout_height="wrap_content"
+					android:layout_width="match_parent"
+					app:behavior_hideable="true"
+					app:behavior_peekHeight="40dp"
+					app:layout_behavior="@string/bottom_sheet_behavior"
+					tools:layout="@layout/bottom_sheet_item_options"/>
+
+		</androidx.coordinatorlayout.widget.CoordinatorLayout>
 	</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

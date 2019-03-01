@@ -3,5 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#AD0F0F</color>
-    <color name="colorMoneyGreen">#23A330</color>
+    <color name="moneyGreen">#23A330</color>
+    <color name="semiTransparentBlack">#99000000</color>
+    <color name="semiTransparentWhite">#D9FFFFFF</color>
+    <color name="semiTransparentcolorPrimary">#80008577</color>
 </resources>

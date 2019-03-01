@@ -29,7 +29,7 @@ abstract class BaseFragment<T : ViewDataBinding, VM : ViewModel> : DaggerFragmen
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         dataBinding = DataBindingUtil.inflate(layoutInflater, layoutToInflate(), container, false)
-        dataBinding.lifecycleOwner = this
+        dataBinding.lifecycleOwner = viewLifecycleOwner
         return dataBinding.root
     }
 
