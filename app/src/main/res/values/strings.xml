@@ -7,4 +7,17 @@
 	</string>
 
 	<string name="money_text">%.2f \$</string>
+	<string name="ordered">Ordered</string>
+	<string name="total">total</string>
+	<string name="pay">PAY</string>
+	<string name="no_orders_found">No orders found</string>
+	<string name="order_is_empty">Order is empty</string>
+	<string name="empty">EMPTY</string>
+	<string name="order">Order</string>
+	<string name="current_order">Current Order</string>
+	<string name="request_staff">Request staff</string>
+
+	<!--needed to fix lib bug-->
+	<item name="omfm_main_label_id" type="id"/>
+	<item name="omfm_tag" type="id"/>
 </resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/main_option"
+        android:icon="@drawable/ic_add_white_24dp"
+        android:title=""/>
+
+    <item
+            android:id="@+id/option2"
+            android:icon="@drawable/ic_restaurant_menu"
+            android:title="@string/ordered" />
+
+    <item
+        android:id="@+id/option1"
+        android:icon="@drawable/ic_restaurant_menu"
+        android:title="@string/current_order" />
+
+    <item
+        android:id="@+id/option3"
+        android:icon="@drawable/ic_face"
+        android:title="@string/request_staff" />
+</menu>

@@ -1,9 +1,12 @@
 package pt.orpheu.readyservice.ui.menupicker
 
 import android.os.Bundle
+import android.view.Gravity
 import pt.orpheu.readyservice.R
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.Toast
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -12,13 +15,14 @@ import pt.orpheu.readyservice.base.BaseActivity
 import pt.orpheu.readyservice.databinding.ActivityMenuPickerBinding
 import javax.inject.Inject
 import androidx.viewpager.widget.ViewPager
+import com.dekoservidoni.omfm.OneMoreFabMenu
 import pt.orpheu.readyservice.model.*
 import pt.orpheu.readyservice.ui.adapters.ImagePagerAdapter
 import pt.orpheu.readyservice.ui.adapters.OrderItemsRecyclerViewAdapter
 import pt.orpheu.readyservice.ui.adapters.TabsAdapter
 
 
-class MenuPickerActivity : BaseActivity<ActivityMenuPickerBinding, MenuPickerViewModel>() {
+class MenuPickerActivity : BaseActivity<ActivityMenuPickerBinding, MenuPickerViewModel>(), OneMoreFabMenu.OptionsClick  {
 
 
     @Inject
@@ -46,8 +50,20 @@ class MenuPickerActivity : BaseActivity<ActivityMenuPickerBinding, MenuPickerVie
 
         initPagers()
 
+        dataBinding.fab.setOptionsClick(this)
+
         viewModel.init()
     }
+
+
+    override fun onOptionClick(optionId: Int?) {
+        when(optionId) {
+            R.id.option1 -> dataBinding.drawerLayout.openDrawer(GravityCompat.START)
+            R.id.option2 -> dataBinding.drawerLayout.openDrawer(GravityCompat.END)
+            R.id.option3 -> Toast.makeText(this,"Requesting staff, please wait",Toast.LENGTH_SHORT).show()
+        }
+    }
+
 
 
     private fun showLoading(){

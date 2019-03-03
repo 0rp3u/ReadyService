@@ -92,14 +92,11 @@
 					android:id="@+id/floatingActionButton"
 					android:layout_marginBottom="8dp"
 					android:layout_marginEnd="8dp"
-					app:fab_size="mini"
-					app:borderWidth="0.5dp"
-					app:fabSize="mini"
-					app:backgroundTint="?attr/colorPrimary"
 					android:layout_gravity="bottom|end"
+					app:borderWidth="0.5dp"
+					app:backgroundTint="?attr/colorPrimary"
+					app:fabSize="mini"
 					android:visibility="gone"/>
-
-
 
 			<FrameLayout
 					android:id="@+id/bottom_sheet_container"
