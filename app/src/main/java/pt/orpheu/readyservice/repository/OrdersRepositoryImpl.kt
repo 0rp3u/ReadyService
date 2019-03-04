@@ -1,7 +1,6 @@
 package pt.orpheu.readyservice.repository
 
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.Observer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -27,51 +26,17 @@ class OrdersRepositoryImpl
 
     private val currentOrderMld : MediatorLiveData<Order> = MediatorLiveData()
 
-    private val allOrdereItemsdMld : MediatorLiveData<List<ItemOrder>?> = MediatorLiveData()
+    private val allOrderedItemsdMld : MediatorLiveData<List<ItemOrder>?> = MediatorLiveData()
 
-    init { //TODO refactor
-
-        val orderingItems =  database.getOrderedItemsDao().gerCurrentOrderItemsLiveData()
-        currentOrderMld.addSource(orderingItems) {
-            // coroutine context needed for the non blocking api call,
-            // liveData access has to be on the main thread
-            GlobalScope.launch(Dispatchers.Main) {
-                currentOrderMld.postValue(
-                    if(!it.isNullOrEmpty()) {
-                        Order(
-                            it.first().orderId,
-                            true,
-                            it.map{ ItemOrder(it.itemCount, apiService.getItemDetails(it.itemId)) }
-                        )
-                    } else null
-                )
-            }
-        }
-
-        val alreadyOrderedItems =  database.getOrderedItemsDao().getAlreadyOrderedItemsLiveData()
-        allOrdereItemsdMld.addSource(alreadyOrderedItems) {
-            // coroutine context needed for the non blocking api call,
-            // liveData access has to be on the main thread
-            GlobalScope.launch(Dispatchers.Main) {
-                allOrdereItemsdMld.postValue(
-                    if(!it.isNullOrEmpty()) {
-                        it.fold(mutableListOf<ItemOrder>()) { acc, dbItem ->
-                            (acc.find { it.item.id == dbItem.itemId }
-                                ?: ItemOrder(0, apiService.getItemDetails(dbItem.itemId) ))
-                                    .apply { count += dbItem.itemCount }
-                                    .let { acc.remove(it); acc.add(it)}
-                            acc
-                        }
-                    } else null
-                )
-            }
-        }
+    init {
+        setupAllOrderedMediatorLiveData()
+        setupCurrentOrderMediatorLiveData()
     }
 
 
     override fun getCurrentOrderLiveData() = currentOrderMld
 
-    override fun getAlreadyOrderedLiveData() = allOrdereItemsdMld
+    override fun getAlreadyOrderedLiveData() = allOrderedItemsdMld
 
     override suspend fun getOrderItem(item: Item) : ItemOrder? = withContext(Dispatchers.IO){
         return@withContext orderedItemsDao.getOrderItem(item.id)
@@ -163,6 +128,45 @@ class OrdersRepositoryImpl
     }
 
 
+    private fun setupCurrentOrderMediatorLiveData(){
+        val orderingItems =  database.getOrderedItemsDao().gerCurrentOrderItemsLiveData()
 
+        currentOrderMld.addSource(orderingItems) {
+            // coroutine context needed for the non blocking api call,
+            // liveData access has to be on the main thread
+            GlobalScope.launch(Dispatchers.Main) {
+                currentOrderMld.postValue(
+                    if(!it.isNullOrEmpty()) {
+                        Order(
+                            it.first().orderId,
+                            true,
+                            it.map{ ItemOrder(it.itemCount, apiService.getItemDetails(it.itemId)) }
+                        )
+                    } else null
+                )
+            }
+        }
+    }
 
+    private fun setupAllOrderedMediatorLiveData(){
+        val alreadyOrderedItems =  database.getOrderedItemsDao().getAlreadyOrderedItemsLiveData()
+
+        allOrderedItemsdMld.addSource(alreadyOrderedItems) {
+            // coroutine context needed for the non blocking api call,
+            // liveData access has to be on the main thread
+            GlobalScope.launch(Dispatchers.Main) {
+                allOrderedItemsdMld.postValue(
+                    if(!it.isNullOrEmpty()) {
+                        it.fold(mutableListOf<ItemOrder>()) { acc, dbItem ->
+                            (acc.find { it.item.id == dbItem.itemId }
+                                ?: ItemOrder(0, apiService.getItemDetails(dbItem.itemId) ))
+                                .apply { count += dbItem.itemCount }
+                                .let { acc.remove(it); acc.add(it)}
+                            acc
+                        }
+                    } else null
+                )
+            }
+        }
+    }
 }

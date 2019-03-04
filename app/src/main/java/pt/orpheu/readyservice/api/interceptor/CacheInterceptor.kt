@@ -12,7 +12,7 @@ class CacheInterceptor(private val maxAgeMin: Int) : Interceptor {
 
         // re-write response header to force use of cache
         val cacheControl = CacheControl.Builder()
-                .maxAge(2, TimeUnit.MINUTES)
+                .maxAge(maxAgeMin, TimeUnit.MINUTES)
                 .build()
 
         return response.newBuilder()
