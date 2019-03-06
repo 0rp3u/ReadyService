@@ -22,7 +22,7 @@ Principal technologies used for the development of this project.
 | [Retrofit] | type safe HTTP client library|
 | [Room] | Library provides an abstraction layer over SQLite for data persistence on mobile device |
 | [Dagger] | Dependency injector |
-| [Leak Canary] |App | Memory leak detection library |
+| [Leak Canary] | memory leak detection library |
 | [MVVM] | Architectural pattern used for responsibility separation |
 
 [ISEL]: <https://www.isel.pt/en>
