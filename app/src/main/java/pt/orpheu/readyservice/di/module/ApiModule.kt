@@ -23,7 +23,7 @@ class ApiModule {
         const val READ_TIMEOUT = 5L
         const val WRITE_TIMEOUT = 5L
         const val CACHE_SIZE = 40L * 1024 * 1024 // 40 MiB
-        const val CACHE_MAX_AGE_MIN = 2
+        const val CACHE_MAX_AGE_MIN = 15
     }
 
 

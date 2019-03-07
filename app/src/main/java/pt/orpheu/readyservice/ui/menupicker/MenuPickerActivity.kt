@@ -1,7 +1,6 @@
 package pt.orpheu.readyservice.ui.menupicker
 
 import android.os.Bundle
-import android.view.Gravity
 import pt.orpheu.readyservice.R
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -10,7 +9,6 @@ import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import pt.orpheu.readyservice.base.BaseActivity
 import pt.orpheu.readyservice.databinding.ActivityMenuPickerBinding
 import javax.inject.Inject
@@ -18,7 +16,6 @@ import androidx.viewpager.widget.ViewPager
 import com.dekoservidoni.omfm.OneMoreFabMenu
 import pt.orpheu.readyservice.model.*
 import pt.orpheu.readyservice.ui.adapters.ImagePagerAdapter
-import pt.orpheu.readyservice.ui.adapters.OrderItemsRecyclerViewAdapter
 import pt.orpheu.readyservice.ui.adapters.TabsAdapter
 
 
@@ -139,7 +136,7 @@ class MenuPickerActivity : BaseActivity<ActivityMenuPickerBinding, MenuPickerVie
 
         viewModel.getMenusLiveData().observe(this, Observer{
             (menuPager.adapter as TabsAdapter).setData(it)
-            (imageViewPager.adapter as ImagePagerAdapter).setData( it.map { it.img_url })
+            (imageViewPager.adapter as ImagePagerAdapter).setData( it.map { it.imageUrl })
         })
 
 

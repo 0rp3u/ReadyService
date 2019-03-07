@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import androidx.fragment.app.transaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -121,11 +122,9 @@ class ItemDetailsActivity : BaseActivity<ActivityItemDetailsBinding, ItemDetails
 
     private fun setupBottomSheetFragment(item: Item){
         val fragment = ItemOptionsBottomSheetFragment.newInstance(item)
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.bottom_sheet_container, fragment)
-            .commitNow()
-
+        supportFragmentManager.transaction(allowStateLoss = true) {
+            replace(R.id.bottom_sheet_container, fragment)
+        }
     }
 
     private fun onBottomSheetStateChanged(state: Int){
