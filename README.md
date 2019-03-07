@@ -1,4 +1,33 @@
 # ReadyService
+
+
+<a href="https://github.com/0rp3u/ReadyService/raw/master/screenshots/device-2019-03-07-011147.png">
+<img src="https://github.com/0rp3u/ReadyService/raw/master/screenshots/device-2019-03-07-011147.png" width="150" height="270">
+</a>
+
+<a href="https://github.com/0rp3u/ReadyService/raw/master/screenshots/device-2019-03-07-011234.png">
+<img src="https://github.com/0rp3u/ReadyService/raw/master/screenshots/device-2019-03-07-011234.png" width="150" height="270">
+</a>
+
+<a href="https://github.com/0rp3u/ReadyService/raw/master/screenshots/device-2019-03-07-011527.png">
+<img src="https://github.com/0rp3u/ReadyService/raw/master/screenshots/device-2019-03-07-011527.png" width="150" height="270">
+</a>
+
+<a href="https://github.com/0rp3u/ReadyService/raw/master/screenshots/device-2019-03-07-011321.png">
+<img src="https://github.com/0rp3u/ReadyService/raw/master/screenshots/device-2019-03-07-011321.png" width="150" height="270">
+</a>
+
+<a href="https://github.com/0rp3u/ReadyService/raw/master/screenshots/device-2019-03-07-011255.png">
+<img src="https://github.com/0rp3u/ReadyService/raw/master/screenshots/device-2019-03-07-011255.png" width="150" height="270">
+</a>
+
+<a href="https://github.com/0rp3u/ReadyService/raw/master/screenshots/device-2019-03-07-011349.png">
+<img src="https://github.com/0rp3u/ReadyService/raw/master/screenshots/device-2019-03-07-011349.png" width="150" height="270">
+</a>
+<a href="https://github.com/0rp3u/ReadyService/raw/master/screenshots/device-2019-03-07-011508.png">
+<img src="https://github.com/0rp3u/ReadyService/raw/master/screenshots/device-2019-03-07-011508.png" width="150" height="270">
+</a>
+
 This application is a test case for some of the most recent android architecture components and recommendations, applied to a realistic use case, it consist of a replacement for a restaurant/bar menu allowing a user to  not bother the waiter multiple times.
 The functionallities mostly mocked since there is not API but all menus and organization is controlled by the API data.
 
@@ -10,7 +39,7 @@ The functionallities mostly mocked since there is not API but all menus and orga
 * Pay for all item ordered;
 
 ### Source of data
-The source of data is provided from a mock API using the [Mock.io] services.
+The source of data is provided from a mock API that I developed in [Node.js] and hosted on [Heroku].
 
 ### Technologies
 Principal technologies used for the development of this project.
@@ -25,7 +54,8 @@ Principal technologies used for the development of this project.
 | [Leak Canary] | memory leak detection library |
 | [MVVM] | Architectural pattern used for responsibility separation |
 
-[ISEL]: <https://www.isel.pt/en>
+[Node.js]: <https://nodejs.org/en/>
+[Heroku]: <https://heroku.com/>
 [Kotlin]: <https://kotlinlang.org/>
 [Coroutines]: <https://kotlinlang.org/docs/reference/coroutines-overview.html/>
 [Retrofit]: <https://square.github.io/retrofit/>
