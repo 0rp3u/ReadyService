@@ -48,10 +48,10 @@ Principal technologies used for the development of this project.
 | ------ | ------ |
 | [Kotlin] |Concise programming language that fully supports Android development |
 | [Coroutines] | Powerful library for asynchronous programming |
-| [Retrofit] | type safe HTTP client library|
+| [Retrofit] | Type safe HTTP client library|
 | [Room] | Library provides an abstraction layer over SQLite for data persistence on mobile device |
 | [Dagger] | Dependency injector |
-| [Leak Canary] | memory leak detection library |
+| [Leak Canary] | Memory leak detection library |
 | [MVVM] | Architectural pattern used for responsibility separation |
 
 [Node.js]: <https://nodejs.org/en/>
