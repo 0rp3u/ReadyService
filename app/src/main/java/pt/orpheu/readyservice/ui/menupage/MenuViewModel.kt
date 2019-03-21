@@ -3,6 +3,7 @@ package pt.orpheu.readyservice.ui.menupage
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -23,7 +24,7 @@ class MenuViewModel @Inject constructor(val apiService: ApiService, val ordersRe
     fun getMenusLiveData(): LiveData<MenuDetails> = submenus
 
     fun init(id: Long){
-        GlobalScope.launch(Dispatchers.Main) {
+        viewModelScope.launch {
             try {
                 state.value = LOADING
                 submenus.value = apiService.getMenuDetails(id)
@@ -35,7 +36,7 @@ class MenuViewModel @Inject constructor(val apiService: ApiService, val ordersRe
     }
 
     fun orderProduct(item: Item){
-        GlobalScope.launch(Dispatchers.Main) {
+        viewModelScope.launch {
             try {
                 state.value = LOADING
                 ordersRepository.orderItem(ItemOrder(1, item))

@@ -3,6 +3,7 @@ package pt.orpheu.readyservice.ui.itemoptions
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -29,7 +30,7 @@ class ItemOptionsViewModel @Inject constructor(private val ordersRepository: Ord
 
 
     fun init(item: Item){
-        GlobalScope.launch(Dispatchers.Main) {
+        viewModelScope.launch {
             try {
                 state.value = LOADING
 
@@ -50,7 +51,7 @@ class ItemOptionsViewModel @Inject constructor(private val ordersRepository: Ord
     }
 
     fun orderItem(){
-        GlobalScope.launch(Dispatchers.Main) {
+        viewModelScope.launch {
             try {
                 state.value = LOADING
 

@@ -3,6 +3,7 @@ package pt.orpheu.readyservice.ui.itemdetails
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -20,8 +21,8 @@ class ItemDetailsViewModel @Inject constructor(val apiService: ApiService) : Vie
     fun getLoadingStateLiveData(): LiveData<LoadingState> = state
 
 
-    fun init(id: Int){
-        GlobalScope.launch(Dispatchers.Main) {
+    fun init() {
+        viewModelScope.launch {
             try {
                 state.value = LOADING
 

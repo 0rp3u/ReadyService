@@ -1,9 +1,6 @@
 package pt.orpheu.readyservice.ui.alreadyordered
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -32,7 +29,7 @@ class AlreadyOrderedViewModel @Inject constructor(private val ordersRepository: 
     }
 
     fun orderProduct(item: Item){
-        GlobalScope.launch(Dispatchers.Main) {
+        viewModelScope.launch {
             try {
                 state.value = LOADING
                 ordersRepository.orderItem(ItemOrder(1, item))
@@ -44,7 +41,7 @@ class AlreadyOrderedViewModel @Inject constructor(private val ordersRepository: 
     }
 
     fun  ordersPaid(){
-        GlobalScope.launch(Dispatchers.Main) {
+        viewModelScope.launch {
             try {
                 state.value = LOADING
                 ordersRepository.emptyAllOrders()

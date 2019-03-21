@@ -19,8 +19,8 @@ import javax.inject.Singleton
 class ApiModule {
 
     private companion object {
-        const val CONNECTION_TIMEOUT = 10L
-        const val READ_TIMEOUT = 5L
+        const val CONNECTION_TIMEOUT = 30L
+        const val READ_TIMEOUT = 10L
         const val WRITE_TIMEOUT = 5L
         const val CACHE_SIZE = 40L * 1024 * 1024 // 40 MiB
         const val CACHE_MAX_AGE_MIN = 15

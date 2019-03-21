@@ -1,9 +1,6 @@
 package pt.orpheu.readyservice.ui.currentorder
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -34,7 +31,7 @@ class CurrentOrderViewModel @Inject constructor(private val ordersRepository: Or
     }
 
     fun orderProduct(item: Item){
-        GlobalScope.launch(Dispatchers.Main) {
+        viewModelScope.launch {
             try {
                 state.value = LOADING
                 ordersRepository.orderItem(ItemOrder(1, item))
@@ -46,7 +43,7 @@ class CurrentOrderViewModel @Inject constructor(private val ordersRepository: Or
     }
 
     fun closeCurrentOrder(){
-        GlobalScope.launch(Dispatchers.Main) {
+        viewModelScope.launch {
             try {
                 state.value = LOADING
                 ordersRepository.closeCurrentOrder()
@@ -59,7 +56,7 @@ class CurrentOrderViewModel @Inject constructor(private val ordersRepository: Or
 
 
     fun emptyCurrentOrder(){
-        GlobalScope.launch(Dispatchers.Main) {
+        viewModelScope.launch {
             try {
                 state.value = LOADING
                 ordersRepository.emptyCurrentOrder()

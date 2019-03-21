@@ -3,6 +3,7 @@ package pt.orpheu.readyservice.ui.menupicker
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import pt.orpheu.readyservice.api.ApiService
 import pt.orpheu.readyservice.database.dao.OrderedItemsDao
@@ -26,7 +27,7 @@ class MenuPickerViewModel @Inject constructor(private val apiService: ApiService
     fun getCurrentOrderLiveData() = currentOrder
 
     fun init(){
-        GlobalScope.launch(Dispatchers.Main) {
+        viewModelScope.launch{
             try{
                 state.value = LOADING
                 menus.value = apiService.getMenus()
