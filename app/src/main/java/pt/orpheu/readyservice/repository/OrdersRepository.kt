@@ -19,9 +19,9 @@ interface OrdersRepository {
 
     suspend fun orderItem(itemOrder: ItemOrder)
 
-    suspend fun closeCurrentOrder()
+    suspend fun closeCurrentOrder(): Unit
 
-    suspend fun emptyCurrentOrder()
+    suspend fun emptyCurrentOrder(): Unit
 
     suspend fun emptyAllOrders()
 }

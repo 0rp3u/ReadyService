@@ -3,6 +3,7 @@ package pt.orpheu.readyservice.api.interceptor
 import okhttp3.Interceptor
 import okhttp3.Response
 import okhttp3.CacheControl
+import okhttp3.Request
 import java.util.concurrent.TimeUnit
 
 class CacheInterceptor(private val maxAgeMin: Int) : Interceptor {

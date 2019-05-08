@@ -1,6 +1,7 @@
 package pt.orpheu.readyservice.repository
 
 import androidx.lifecycle.MediatorLiveData
+import androidx.room.withTransaction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -44,33 +45,26 @@ class OrdersRepositoryImpl
     }
 
 
-    override suspend fun deleteItem(itemId: Long) = withContext(Dispatchers.IO){
-        try {
-            database.beginTransaction()
+    override suspend fun deleteItem(itemId: Long) {
+        database.withTransaction {
             val itemOrderEntry = orderedItemsDao.getOrderItem(itemId)
-            orderedItemsDao.delete(itemOrderEntry?.id ?: return@withContext)
-            database.setTransactionSuccessful()
-
-        }finally { database.endTransaction() }
+            orderedItemsDao.delete(itemOrderEntry?.id ?: return@withTransaction)
+        }
     }
 
-    override suspend fun updateItem(itemOrder: ItemOrder) = withContext(Dispatchers.IO){
-        try {
-            database.beginTransaction()
+    override suspend fun updateItem(itemOrder: ItemOrder) {
+        database.withTransaction {
 
             val itemOrderEntry = orderedItemsDao.getOrderItem(itemOrder.item.id)
             itemOrderEntry?.itemCount = itemOrder.count
-            orderedItemsDao.update(itemOrderEntry ?: return@withContext)
+            orderedItemsDao.update(itemOrderEntry ?: return@withTransaction)
 
-            database.setTransactionSuccessful()
-
-        }finally { database.endTransaction() }
+        }
     }
 
 
-    override suspend fun orderItem(itemOrder: ItemOrder) = withContext(Dispatchers.IO) {
-        try {
-            database.beginTransaction()
+    override suspend fun orderItem(itemOrder: ItemOrder){
+        database.withTransaction {
 
             val order = orderDao.getCurrentOrder()
                 ?: OrderEntity(true).apply { orderDao.insert(this).let { this.id = it } }
@@ -83,48 +77,28 @@ class OrdersRepositoryImpl
                 )
             )
 
-            database.setTransactionSuccessful()
-
-        }finally { database.endTransaction() }
+        }
     }
 
-
-
-    override suspend fun closeCurrentOrder() = withContext(Dispatchers.IO) {
-        try {
-            database.beginTransaction()
-
+    override suspend fun closeCurrentOrder() {
+        database.withTransaction {
             orderDao.getCurrentOrder()?.let {
                 orderDao.update(it.apply { it.current = false })
             }
-
-            database.setTransactionSuccessful()
-
-        }finally { database.endTransaction() }
+        }
     }
 
-    override suspend fun emptyCurrentOrder() = withContext(Dispatchers.IO) {
-        try {
-            database.beginTransaction()
-
+    override suspend fun emptyCurrentOrder() {
+        database.withTransaction {
             orderDao.getCurrentOrder()?.let {
                 orderDao.delete(it.id)
             }
-
-            database.setTransactionSuccessful()
-
-        }finally { database.endTransaction() }
+        }
     }
-
-    override suspend fun emptyAllOrders() = withContext(Dispatchers.IO) {
-        try {
-            database.beginTransaction()
-
+    override suspend fun emptyAllOrders() {
+        database.withTransaction {
             database.clearAllTables() //we only save order Info so it's fine.
-
-            database.setTransactionSuccessful()
-
-        }finally { database.endTransaction() }
+        }
     }
 
 

@@ -44,7 +44,8 @@ class AlreadyOrderedFragment : BaseFragment<FragmentAlreadyOrderedDrawerBinding,
         val currentOrderRecyclerViewAdapter = OrderItemsRecyclerViewAdapter(requireContext()) {
             val dialog = ItemOptionsDialog.newInstance(it.item)
 
-            dialog.show(fragmentManager, ItemOptionsDialog.DIALOG_TAG)
+
+            dialog.show(requireFragmentManager(), ItemOptionsDialog.DIALOG_TAG)
         }
 
         recyclerView.adapter = currentOrderRecyclerViewAdapter

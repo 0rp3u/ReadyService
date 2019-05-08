@@ -9,7 +9,7 @@ import pt.orpheu.readyservice.ui.menupage.MenuFragment
 class TabsAdapter(
     fm: FragmentManager,
     menus: List<Menu> = listOf()
-) : FragmentPagerAdapter(fm) {
+) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
 
     private var data = menus.toMutableList()

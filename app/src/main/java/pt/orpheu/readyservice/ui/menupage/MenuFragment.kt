@@ -68,7 +68,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>(){
                     },
                     {
                         val dialog = ItemOptionsDialog.newInstance(it)
-                        dialog.show(fragmentManager, ItemOptionsDialog.DIALOG_TAG)
+                        dialog.show(requireFragmentManager(), ItemOptionsDialog.DIALOG_TAG)
                     }
                 )
         })

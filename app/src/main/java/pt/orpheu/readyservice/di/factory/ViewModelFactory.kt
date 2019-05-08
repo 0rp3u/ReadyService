@@ -21,5 +21,4 @@ class ViewModelFactory @Inject constructor(private val creators: Map<Class<out V
             throw RuntimeException(exception)
         }
     }
-
 }

@@ -40,6 +40,4 @@ class MenuPickerViewModel @Inject constructor(private val apiService: ApiService
             }
         }
     }
-
-
 }
